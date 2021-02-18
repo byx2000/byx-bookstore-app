@@ -1,13 +1,15 @@
 <template>
   <div>
-    主页
+    <banner :books="bannerRecommend"/>
   </div>
 </template>
 
 <script>
 import request from '../../network/request'
+import Banner from './Banner/Banner.vue'
 
 export default {
+  components: { Banner },
   name: 'HomePage',
   data() {
     return {
@@ -15,12 +17,10 @@ export default {
     }
   },
   created() {
-    console.log('主页初始化')
     request({
       url: '/book/recommend?count=12'
     }).then(res => {
       this.bannerRecommend = res.data
-      console.log(this.bannerRecommend)
     })
   }
 }

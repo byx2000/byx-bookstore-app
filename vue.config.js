@@ -1,3 +1,3 @@
 module.exports = {
-    publicPath: '/byx-bookstore'
+    publicPath: '/byx-bookstore-app'
 }
