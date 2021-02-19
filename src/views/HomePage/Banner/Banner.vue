@@ -84,7 +84,7 @@ export default {
 }
 
 .book-container {
-  padding: 30px 30px 50px 30px;
+  padding: 30px 30px 30px 30px;
 }
 
 .cover {
