@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import request from '../../network/request'
 import Banner from './Banner/Banner.vue'
+import { getRecommend } from '../../network/HomePage'
 
 export default {
   components: { Banner },
@@ -17,9 +17,7 @@ export default {
     }
   },
   created() {
-    request({
-      url: '/book/recommend?count=12'
-    }).then(res => {
+    getRecommend(12).then(res => {
       this.bannerRecommend = res.data
     })
   }
