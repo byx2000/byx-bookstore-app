@@ -1,11 +1,37 @@
 <template>
-  <div>
-    分类
-  </div>
+  <b-container>
+    <category-choose :categories="categories" @optionChanged="optionChanged" id="category-choose"/>
+  </b-container>
 </template>
 
 <script>
+import { getAllCategories } from '../../network/common'
+import CategoryChoose from './CategoryChoose/CategoryChoose.vue'
 export default {
-  name: 'CategoryPage'
+  components: { CategoryChoose },
+  name: 'CategoryPage',
+  data() {
+    return {
+      categories: []
+    }
+  },
+  created() {
+    getAllCategories().then(res => {
+      this.categories = res.data
+    })
+  },
+  methods: {
+    optionChanged(selected) {
+      console.log(selected)
+    }
+  }
 }
 </script>
+
+<style scoped>
+
+#category-choose {
+  margin-top: 20px;
+}
+
+</style>

@@ -1,4 +1,4 @@
-import { request, requestAll } from './request'
+import { request } from './request'
 
 // 主页的网络请求模块
 
@@ -8,12 +8,6 @@ export function getRecommend(count) {
     params: {
       count
     }
-  })
-}
-
-export function getAllCategories() {
-  return request({
-    url: '/category/all'
   })
 }
 

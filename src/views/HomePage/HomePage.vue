@@ -10,7 +10,8 @@
 
 <script>
 import Banner from './Banner/Banner.vue'
-import { getRecommend, getAllCategories, getRecommendOfCategory, getRecommendOfCategories } from '../../network/HomePage'
+import { getAllCategories } from '../../network/common'
+import { getRecommend, getRecommendOfCategory, getRecommendOfCategories } from '../../network/HomePage'
 import CategoryRecommend from './CategoryRecommend/CategoryRecommend.vue'
 
 export default {
