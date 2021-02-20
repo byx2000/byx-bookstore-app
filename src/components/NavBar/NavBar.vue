@@ -43,7 +43,7 @@ export default {
     }
   },
   created() {
-    console.log('获取用户信息')
+    
   },
   methods: {
     toHomePage() {

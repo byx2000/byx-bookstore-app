@@ -2,6 +2,7 @@
   <div>
     <banner :books="bannerRecommend"/>
     <b-container>
+      <h3 class="category-recommend-text text-center">分类推荐</h3>
       <category-recommend class="category-recommend" :recommend-data="categoryRecommend"/>
     </b-container>
     
@@ -10,8 +11,7 @@
 
 <script>
 import Banner from './Banner/Banner.vue'
-import { getAllCategories } from '../../network/common'
-import { getRecommend, getRecommendOfCategory, getRecommendOfCategories } from '../../network/HomePage'
+import { getAllCategories, queryBooks } from '../../network/common'
 import CategoryRecommend from './CategoryRecommend/CategoryRecommend.vue'
 
 export default {
@@ -24,14 +24,23 @@ export default {
     }
   },
   created() {
-    getRecommend(12).then(res => {
+    queryBooks({
+      orderBy: 'random',
+      pageSize: 12,
+      currentPage: 1
+    }).then(res => {
       this.bannerRecommend = res.data
     })
 
     getAllCategories().then(res => {
       let categories = res.data
       for (let category of res.data) {
-        getRecommendOfCategory(category.id, 12).then(res => {
+        queryBooks({
+          categoryId: category.id,
+          orderBy: 'random',
+          pageSize: 12,
+          currentPage: 1
+        }).then(res => {
           this.categoryRecommend.push({
             category,
             books: res.data
@@ -52,6 +61,10 @@ export default {
 
 .category-recommend {
   margin-top: 20px;
+}
+
+.category-recommend-text{
+  margin-top: 35px;
 }
 
 </style>

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { getAllCategories } from '../../network/common'
+import { getAllCategories, queryBooks } from '../../network/common'
 import CategoryChoose from './CategoryChoose/CategoryChoose.vue'
 export default {
   components: { CategoryChoose },
@@ -18,6 +18,14 @@ export default {
   created() {
     getAllCategories().then(res => {
       this.categories = res.data
+    })
+
+    queryBooks({
+      categoryId: 7,
+      pageSize: 10,
+      currentPage: 1
+    }).then(res => {
+      console.log(res)
     })
   },
   methods: {
