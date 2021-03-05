@@ -1,6 +1,7 @@
 <template>
   <div>
     <nav-bar/>
+    <el-divider id="divider-below-navbar"></el-divider>
     <router-view/>
   </div>
 </template>
@@ -14,3 +15,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+#divider-below-navbar {
+  margin-top: 0;
+}
+</style>

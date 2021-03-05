@@ -1,43 +1,20 @@
 <template>
   <div>
-    <div>
-      <b-carousel
-        :interval="4000"
-        controls
-        indicators
-        class="banner">
-        <b-carousel-slide v-for="(group, index) in bannerGroups" 
-          :key="index">
-          <template v-slot:img>
-            <b-container>
-              <b-row>
-                <p class="description text-truncate">
-                  {{group[currentBookIndex].description}}
-                </p>
-              </b-row>
-              <b-row>
-                <b-col class="book-container d-block" cols="12" sm="6" md="4" lg="3" @mouseover="onMouseOver(0)">
-                  <img class="cover" :src="group[0].cover"/>
-                  <p class="name text-truncate">{{group[0].name}}</p>
-                </b-col>
-                <b-col class="book-container d-none d-sm-block" cols="12" sm="6" md="4" lg="3" @mouseover="onMouseOver(1)">
-                  <img class="cover" :src="group[1].cover"/>
-                  <p class="name text-truncate">{{group[1].name}}</p>
-                </b-col>
-                <b-col class="book-container d-none d-md-block d-lg-block" cols="12" sm="6" md="4" lg="3" @mouseover="onMouseOver(2)">
-                  <img class="cover" :src="group[2].cover"/>
-                  <p class="name text-truncate">{{group[2].name}}</p>
-                </b-col>
-                <b-col class="book-container d-none d-lg-block d-xl-block" cols="12" sm="6" md="4" lg="3" @mouseover="onMouseOver(3)">
-                  <img class="cover" :src="group[3].cover"/>
-                  <p class="name text-truncate">{{group[3].name}}</p>
-                </b-col>
-              </b-row>
-            </b-container>
-          </template>
-        </b-carousel-slide>
-      </b-carousel>
-    </div>
+    <el-carousel id="banner" indicator-position="outside" height="350px">
+      <el-carousel-item v-for="(group, index) in bannerGroups" :key="index">
+        <el-row type="flex" justify="center">
+          <p class="name">{{group[currentBookIndex].name}}</p>
+        </el-row>
+        <el-row type="flex" justify="center">
+          <p class="description">{{group[currentBookIndex].description}}</p>
+        </el-row>
+        <el-row type="flex" justify="space-around">
+          <div v-for="(book, i) in group" :key="i">
+            <img :src="book.cover" class="cover" @mouseover="onMouseOver(i)"/>
+          </div>
+        </el-row>
+      </el-carousel-item>
+    </el-carousel>
   </div>
 </template>
 
@@ -60,8 +37,8 @@ export default {
   computed: {
     bannerGroups() {
       let groups = []
-      for (let i = 0; i < this.books.length; i += 4) {
-        groups.push([this.books[i], this.books[i + 1], this.books[i + 2], this.books[i + 3]]);
+      for (let i = 0; i < this.books.length; i += 5) {
+        groups.push([this.books[i], this.books[i + 1], this.books[i + 2], this.books[i + 3], this.books[i + 4]]);
       }
       return groups
     }
@@ -76,31 +53,33 @@ export default {
 
 <style scoped>
 
-.banner {
+#banner {
   background: url(../../../../public/images/banner_background.gif);
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-}
-
-.book-container {
-  padding: 30px 30px 30px 30px;
+  padding-left: 35px;
+  padding-right: 35px;
 }
 
 .cover {
-  width: 100%;
+  height: 250px;
 }
 
 .description {
   color: #ffffff;
-  margin: 30px 20px 0 20px;
+  margin: 0 20px 20px 20px;
   opacity: 0.6;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .name {
   color: #ffffff;
   text-align: center;
-  margin-top: 10px;
+  margin-top: 20px;
+  margin-bottom: 10px;
   font-size: 20px;
 }
 </style>

@@ -72,16 +72,6 @@ export default {
   },
   data() {
     return {
-      // selected: {
-      //   categoryId: 1,
-      //   scoreRange: {},
-      //   heatRange: {},
-      //   updateAfter: 10000,
-      //   orderBy: 'score',
-      //   orderType: 'desc',
-      //   pageSize: 12,
-      //   currentPage: 1
-      // },
       scoreRangeOptions: [
         { text: '全部', value: {} },
         { text: '小于5.0', value: { max: 5.0 } },
