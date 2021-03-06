@@ -1,7 +1,9 @@
 <template>
-  <div>
-    分类
-  </div>
+  <el-container>
+    <el-main>
+      <category-choose :categories="categories" @optionChanged="optionChanged"/>
+    </el-main>
+  </el-container>
   <!-- <b-container>
     <category-choose :categories="categories" 
       @optionChanged="optionChanged" 
@@ -12,23 +14,28 @@
 
 <script>
 import { getAllCategories, queryBooks } from '../../network/common'
-import CategoryChoose from './CategoryChoose/CategoryChoose.vue'
+import CategoryChoose from './CategoryChoose.vue'
 export default {
   components: { CategoryChoose },
-  name: 'CategoryPage'
-  // data() {
-  //   return {
-  //     categories: [],
-  //     books: [],
-  //     pageSize: 12,
-  //     currentPage: 1
-  //   }
-  // },
-  // created() {
-  //   getAllCategories().then(res => {
-  //     this.categories = res.data
-  //   })
-
+  name: 'CategoryPage',
+  data() {
+    return {
+      categories: [],
+      books: [],
+      pageSize: 12,
+      currentPage: 1
+    }
+  },
+  created() {
+    getAllCategories().then(res => {
+      this.categories = res.data
+    })
+  },
+  methods: {
+    optionChanged(selected) {
+      console.log(selected)
+    }
+  }
   //   queryBooks({
   //     categoryId: 1,
   //     orderBy: 'score',
