@@ -54,7 +54,7 @@ export default {
 <style scoped>
 
 #banner {
-  background: url(../../../../public/images/banner_background.gif);
+  background: url(../../../public/images/banner_background.gif);
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;

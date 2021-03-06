@@ -16,10 +16,10 @@
 </template>
 
 <script>
-import Banner from './Banner/Banner.vue'
+import Banner from './Banner.vue'
 import { getRecommendBooks } from '../../network/HomePage'
 import { getAllCategories, queryBooks } from '../../network/common'
-import CategoryRecommend from './CategoryRecommend/CategoryRecommend.vue'
+import CategoryRecommend from './CategoryRecommend.vue'
 
 export default {
   components: { Banner, CategoryRecommend },

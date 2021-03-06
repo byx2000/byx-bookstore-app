@@ -11,11 +11,10 @@
 </template>
 
 <script>
-import BookList from '../../components/BookList/BookList.vue'
 import { getAllCategories, queryBooks } from '../../network/common'
 import CategoryChoose from './CategoryChoose/CategoryChoose.vue'
 export default {
-  components: { CategoryChoose, BookList },
+  components: { CategoryChoose },
   name: 'CategoryPage'
   // data() {
   //   return {

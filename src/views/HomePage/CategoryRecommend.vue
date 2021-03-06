@@ -18,14 +18,12 @@
 </template>
 
 <script>
-import BookInfo from '../../../components/BookInfo/BookInfo.vue'
-import Banner from '../Banner/Banner.vue'
+import BookInfo from '../../components/BookInfo.vue'
 
 export default {
   name: 'CategoryRecommend',
   components: {
-    BookInfo,
-    Banner
+    BookInfo
   },
   props: {
     recommendData: {
