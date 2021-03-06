@@ -2,7 +2,9 @@
   <div>
     <nav-bar/>
     <el-divider id="divider-below-navbar"></el-divider>
-    <router-view/>
+    <keep-alive>
+      <router-view/>
+    </keep-alive>
   </div>
 </template>
 
@@ -16,7 +18,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+body {
+  margin: 0;
+}
+
 #divider-below-navbar {
   margin-top: 0;
 }

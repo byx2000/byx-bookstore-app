@@ -2,7 +2,7 @@
   <div>
     <el-row type="flex" align="middle">
       <el-col :span="16">
-        <el-menu id="navbar" :default-active="'home'" class="el-menu-demo" mode="horizontal" @select="onNavbarSelect" router>
+        <el-menu id="navbar" :default-active="'home'" class="el-menu-demo" mode="horizontal" router>
           <el-menu-item index="home">首页推荐</el-menu-item>
           <el-menu-item index="category">分类浏览</el-menu-item>
           <el-menu-item index="rank">排行榜</el-menu-item>
@@ -41,24 +41,6 @@ export default {
     
   },
   methods: {
-    onNavbarSelect(key) {
-      console.log(key)
-    },
-    toHomePage() {
-      this.$router.replace('/home')
-    },
-    toCategoryPage () {
-      this.$router.replace('/category')
-    },
-    toRankPage() {
-      this.$router.replace('/rank')
-    },
-    toAboutPage() {
-      this.$router.replace('/about')
-    },
-    toProfilePage() {
-      this.$router.replace('/profile')
-    },
     toSearchPage() {
       this.$router.replace({
         path: '/search',

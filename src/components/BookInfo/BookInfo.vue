@@ -1,27 +1,19 @@
 <template>
-  <div>
-    <b-card :img-src="book.cover" img-top class="book-container">
-      <b-card-title class="text-truncate name">{{book.name}}</b-card-title>
-      <b-card-text>
-        <b-container class="author-and-score">
-          <b-row>
-            <b-col cols="6">
-              <b-row>
-                <p class="text-truncate author">{{book.author}}</p>
-              </b-row>
-            </b-col>
-            <b-col cols="6">
-              <b-row>
-                <p class="text-truncate text-right score">评分：{{book.score.toFixed(1)}}</p>
-              </b-row>
-            </b-col>
-          </b-row>
-        </b-container>
-        
-        <p class="text-justify description">{{book.description}}</p>
-      </b-card-text>
-    </b-card>
-  </div>
+  <el-card class="box-card">
+    <el-row type="flex" justify="start">
+      <img class="book-cover" :src="book.cover"/>
+    </el-row>
+    <el-row type="flex" justify="start">
+      <p class="book-name ellipse">{{book.name}}</p>
+    </el-row>
+    <el-row type="flex" justify="start">
+      <p class="book-author ellipse">作者：{{book.author}}</p>
+    </el-row>
+    <el-divider></el-divider>
+    <el-row type="flex" justify="start">
+      <p class="book-description">{{book.description}}</p>
+    </el-row>
+  </el-card>
 </template>
 
 <script>
@@ -39,36 +31,35 @@ export default {
 </script>
 
 <style scoped>
-
-.book-container {
-  margin-bottom: 20px;
-}
-
-.name {
-  font-size: 20px;
-  border-bottom: 1px solid #dfdfdf;
-  margin-bottom: 0;
-  padding-bottom: 6px;
-}
-
-.author-and-score {
-  margin-top: 6px;
-}
-
-.description {
-  font-size: 14px;
-  height: 85px;
+.ellipse {
   overflow: hidden;
-  margin-bottom: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.author {
-  font-size: 14px;
+p {
+  margin: 0;
 }
 
-.score {
-  font-size: 14px;
+.el-divider{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.book-cover {
   width: 100%;
 }
 
+.book-name {
+  
+}
+
+.book-author {
+
+}
+
+.book-description {
+  height: 5.2em;
+  overflow: hidden;
+}
 </style>

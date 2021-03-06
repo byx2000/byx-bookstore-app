@@ -3,7 +3,7 @@
     <banner :books="bannerData"/>
     <el-container>
       <el-main>
-        
+        <category-recommend :recommend-data="categoryData"/>
       </el-main>
       
       <!-- <b-container>
@@ -38,7 +38,25 @@ export default {
     })
 
     getAllCategories().then(res => {
-      console.log(res)
+      let categories = res.data
+
+      for (let category of res.data) {
+        getRecommendBooks({
+          categoryId: category.id,
+          count: 18
+        }).then(res => {
+          this.categoryData.push({
+            category,
+            books: res.data
+          })
+          if (this.categoryData.length === categories.length) {
+            this.categoryData.sort((a, b) => {
+              return a.category.id - b.category.id
+            })
+            //console.log(this.categoryData)
+          }
+        })
+      }
     })
   }
   // created() {
