@@ -1,7 +1,7 @@
 <template>
   <el-card class="box-card">
     <el-row type="flex" justify="start">
-      <img class="book-cover" :src="book.cover"/>
+      <img class="book-cover" :src="book.cover" @click="toBookDetailPage"/>
     </el-row>
     <el-row type="flex" justify="start">
       <p class="book-name ellipse">{{book.name}}</p>
@@ -25,6 +25,16 @@ export default {
       default() {
         return {}
       }
+    }
+  },
+  methods: {
+    toBookDetailPage() {
+      this.$router.push({
+        path: '/detail',
+        query: {
+          bookId: this.book.id
+        }
+      })
     }
   }
 }

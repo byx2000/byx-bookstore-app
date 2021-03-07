@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     toSearchPage() {
-      this.$router.replace({
+      this.$router.push({
         path: '/search',
         query: {
           searchText: this.searchText
