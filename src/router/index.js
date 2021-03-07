@@ -7,6 +7,7 @@ const CategoryPage = () => import('../views/CategoryPage/CategoryPage.vue')
 const RankPage = () => import('../views/RankPage/RankPage.vue')
 const ProfilePage = () => import('../views/ProfilePage/ProfilePage.vue')
 const SearchResultPage = () => import('../views/SearchResultPage/SearchResultPage.vue')
+const BookDetailPage = () => import('../views/BookDetailPage/BookDetailPage.vue')
 
 Vue.use(VueRouter)
 
@@ -38,6 +39,10 @@ const routes = [
   {
     path: '/search',
     component: SearchResultPage
+  },
+  {
+    path: '/detail',
+    component: BookDetailPage
   }
 ]
 

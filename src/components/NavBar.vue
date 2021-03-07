@@ -2,14 +2,14 @@
   <div>
     <el-row type="flex" align="middle">
       <el-col :span="16">
-        <el-menu id="navbar" :default-active="'home'" class="el-menu-demo" mode="horizontal" router>
-          <el-menu-item index="home">首页推荐</el-menu-item>
-          <el-menu-item index="category">分类浏览</el-menu-item>
-          <el-menu-item index="rank">排行榜</el-menu-item>
-          <el-submenu index="4">
+        <el-menu id="navbar" :default-active="this.$route.path" class="el-menu-demo" mode="horizontal" router>
+          <el-menu-item index="/home">首页推荐</el-menu-item>
+          <el-menu-item index="/category">分类浏览</el-menu-item>
+          <el-menu-item index="/rank">排行榜</el-menu-item>
+          <el-submenu index="/profile">
             <template slot="title">用户</template>
-            <el-menu-item index="profile">我的主页</el-menu-item>
-            <el-menu-item index="2-2">注销</el-menu-item>
+            <el-menu-item index="/profile">我的主页</el-menu-item>
+            <el-menu-item index="/logout">注销</el-menu-item>
           </el-submenu>
         </el-menu>
       </el-col>
