@@ -9,22 +9,3 @@ export function getRecommendBooks(query) {
 		data: query
   })
 }
-
-export function getRecommend(count) {
-  return request({
-    url: '/book/recommend',
-    params: {
-      count
-    }
-  })
-}
-
-export function getRecommendOfCategory(categoryId, count) {
-  return request({
-    url: '/book/recommend',
-    params: {
-      categoryId,
-      count
-    }
-  })
-}

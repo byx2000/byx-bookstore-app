@@ -58,6 +58,19 @@ export default {
       default() {
         return []
       }
+    },
+    selected: {
+      type: Object,
+      default() {
+        return {
+          categoryId: -1,
+          scoreRange: {},
+          heatRange: {},
+          updateAfter: 10000,
+          orderBy: 'score',
+          orderType: 'desc'
+        }
+      }
     }
   },
   computed: {
@@ -110,15 +123,7 @@ export default {
       orderTypeOptions: [
         { text: '降序', value: 'desc' },
         { text: '升序', value: 'asc' }
-      ],
-      selected: {
-        categoryId: -1,
-        scoreRange: {},
-        heatRange: {},
-        updateAfter: 10000,
-        orderBy: 'score',
-        orderType: 'desc'
-      }
+      ]
     }
   },
   methods: {

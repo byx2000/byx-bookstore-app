@@ -2,67 +2,61 @@
   <el-container>
     <el-main>
       <category-choose :categories="categories" @optionChanged="optionChanged"/>
+      <book-grid :books="books"/>
     </el-main>
   </el-container>
-  <!-- <b-container>
-    <category-choose :categories="categories" 
-      @optionChanged="optionChanged" 
-      id="category-choose"/>
-    <book-list :books="books"/>
-  </b-container> -->
 </template>
 
 <script>
-import { getAllCategories, queryBooks } from '../../network/common'
+import { getAllCategories } from '../../network/common'
+import { getClassificationQueryBooks } from '../../network/CategoryPage'
 import CategoryChoose from './CategoryChoose.vue'
+import BookGrid from '../../components/BookGrid.vue'
 export default {
-  components: { CategoryChoose },
+  components: { 
+    CategoryChoose, 
+    BookGrid
+  },
   name: 'CategoryPage',
   data() {
     return {
       categories: [],
       books: [],
-      pageSize: 12,
-      currentPage: 1
+      pageSize: 30,
+      currentPage: 1,
+      totalCount: 0
     }
   },
   created() {
     getAllCategories().then(res => {
       this.categories = res.data
     })
+    getClassificationQueryBooks({
+      orderBy: 'score',
+      orderType: 'desc',
+      pageSize: this.pageSize,
+      currentPage: this.currentPage
+    }).then(res => {
+      this.books = res.data.data
+      this.totalCount = res.data.totalCount
+    })
   },
   methods: {
     optionChanged(selected) {
-      console.log(selected)
+      selected.pageSize = this.pageSize
+      selected.currentPage = this.currentPage
+      getClassificationQueryBooks(selected).then(res => {
+        this.books = res.data.data
+        this.totalCount = res.data.totalCount
+      })
     }
   }
-  //   queryBooks({
-  //     categoryId: 1,
-  //     orderBy: 'score',
-  //     orderType: 'desc',
-  //     pageSize: 12,
-  //     currentPage: 1
-  //   }).then(res => {
-  //       this.books = res.data
-  //   })
-  // },
-  // methods: {
-  //   optionChanged(selected) {
-  //     selected.pageSize = 12
-  //     selected.currentPage = 1
-  //     queryBooks(selected).then(res => {
-  //       this.books = res.data
-  //     })
-  //   }
-  // }
 }
 </script>
 
 <style scoped>
-
 #category-choose {
   margin-top: 30px;
   margin-bottom: 30px;
 }
-
 </style>

@@ -5,25 +5,19 @@
         :key="index" 
         :label="item.category.name" 
         :name="item.category.name">
-        <el-row>
-          <el-col v-for="(book, index) in item.books" 
-            :key="index"
-            :span="4">
-            <BookInfo :book="book" class="book-info"/>
-          </el-col>
-        </el-row>
+        <book-grid :books="item.books"/>
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
-import BookInfo from '../../components/BookInfo.vue'
+import BookGrid from '../../components/BookGrid.vue'
 
 export default {
   name: 'CategoryRecommend',
   components: {
-    BookInfo
+    BookGrid
   },
   props: {
     recommendData: {
@@ -49,7 +43,6 @@ export default {
 </script>
 
 <style>
-
 .tabs .card-header {
   background-color: white;
 }
@@ -89,5 +82,4 @@ p {
   height: 5.2em;
   overflow: hidden;
 }
-
 </style>
