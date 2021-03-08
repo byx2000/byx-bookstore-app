@@ -17,7 +17,7 @@
         <el-form :inline="true" class="demo-form-inline">
           <el-row type="flex" justify="end">
             <el-form-item>
-              <el-input v-model="searchText" placeholder="请输入关键字"></el-input>
+              <el-input v-model="keyword" placeholder="请输入关键字"></el-input>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="toSearchPage">搜索</el-button>
@@ -34,7 +34,7 @@ export default {
   name: 'NavBar',
   data() {
     return {
-      searchText: ''
+      keyword: ''
     }
   },
   created() {
@@ -45,7 +45,7 @@ export default {
       this.$router.push({
         path: '/search',
         query: {
-          searchText: this.searchText
+          keyword: this.keyword
         }
       })
     }
