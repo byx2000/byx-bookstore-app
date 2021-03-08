@@ -2,7 +2,7 @@
   <div>
     <el-row type="flex" align="middle">
       <el-col :span="16">
-        <el-menu id="navbar" :default-active="this.$route.path" class="el-menu-demo" mode="horizontal" router>
+        <el-menu id="navbar" :default-active="$route.path" class="el-menu-demo" mode="horizontal" router>
           <el-menu-item index="/home">首页推荐</el-menu-item>
           <el-menu-item index="/category">分类浏览</el-menu-item>
           <el-menu-item index="/rank">排行榜</el-menu-item>
@@ -14,10 +14,10 @@
         </el-menu>
       </el-col>
       <el-col :span="8">
-        <el-form :inline="true" class="demo-form-inline">
+        <el-form :inline="true" class="demo-form-inline" @submit.native.prevent>
           <el-row type="flex" justify="end">
             <el-form-item>
-              <el-input v-model="keyword" placeholder="请输入关键字"></el-input>
+              <el-input v-model="keyword" placeholder="请输入关键字" @keyup.enter="toSearchPage"></el-input>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="toSearchPage">搜索</el-button>

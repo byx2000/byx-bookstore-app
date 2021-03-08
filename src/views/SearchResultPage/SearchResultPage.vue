@@ -65,8 +65,8 @@ export default {
       })
     },
     optionChanged(selected) {
-      selected.pageSize = this.query.pageSize
-      selected.currentPage = this.query.currentPage
+      selected.pageSize = 15
+      selected.currentPage = 1
       selected.keyword = this.query.keyword
       this.query = selected
       this.refresh()
@@ -75,6 +75,14 @@ export default {
       this.query.currentPage = currentPage
       this.refresh()
       window.scrollTo(0, 0)
+    }
+  },
+  watch: {
+    '$route': function(to, from) {
+      this.query.keyword = this.$route.query.keyword
+      this.query.pageSize = 15
+      this.query.currentPage = 1
+      this.refresh()
     }
   }
 }
