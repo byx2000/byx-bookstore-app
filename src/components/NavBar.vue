@@ -60,7 +60,8 @@
 </template>
 
 <script>
-import { login } from '../network/common'
+import { login, getCurrentUser } from '../network/common'
+import { CODE_SUCCESS } from '../common/constants'
 
 export default {
   name: 'NavBar',
@@ -74,7 +75,11 @@ export default {
     }
   },
   created() {
-    
+    getCurrentUser().then(res => {
+      if (res.code == CODE_SUCCESS) {
+        this.userInfo = res.data
+      }
+    })
   },
   methods: {
     toSearchPage() {
@@ -90,11 +95,12 @@ export default {
         username: this.username,
         password: this.password
       }).then(res => {
-        if (res.code === 1001) {
+        if (res.code === CODE_SUCCESS) {
           this.userInfo = res.data
           this.loginDlalogOpen = false
         }
         else {
+          this.loginDlalogOpen = false
           console.log('登录失败：' + res.msg)
         }
       })

@@ -13,3 +13,10 @@ export function login(info) {
 		data: info
 	})
 }
+
+export function getCurrentUser() {
+  return request({
+    url: '/user/current',
+    method: 'post'
+  })
+}
