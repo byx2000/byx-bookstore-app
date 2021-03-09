@@ -5,3 +5,11 @@ export function getAllCategories() {
 		url: '/category/all'
 	})
 }
+
+export function login(info) {
+	return request({
+		url: '/user/login',
+		method: 'post',
+		data: info
+	})
+}
