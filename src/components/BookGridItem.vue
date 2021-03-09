@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  name: 'SearchResultItem',
+  name: 'BookGridItem',
   props: {
     book: {
       type: Object,

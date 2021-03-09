@@ -37,7 +37,7 @@ export default {
         updateAfter: 10000,
         orderBy: 'score',
         orderType: 'desc',
-        pageSize: 30,
+        pageSize: 15,
         currentPage: 1
       },
       categories: [],
@@ -58,23 +58,23 @@ export default {
     })
   },
   methods: {
-    optionChanged(selected) {
-      this.query = selected
-      this.query.pageSize = 30
-      this.query.currentPage = 1
+    refresh() {
       getClassificationQueryBooks(this.query).then(res => {
         this.books = res.data.data
         this.totalCount = res.data.totalCount
         this.totalPage = res.data.totalPage
       })
     },
+    optionChanged(selected) {
+      selected.pageSize = this.query.pageSize
+      selected.currentPage = 1
+      this.query = selected
+      this.refresh()
+    },
     onCurrentPageChanged(currentPage) {
       this.query.currentPage = currentPage
-      getClassificationQueryBooks(this.query).then(res => {
-        this.books = res.data.data
-        this.totalCount = res.data.totalCount
-        this.totalPage = res.data.totalPage
-      })
+      this.refresh()
+      window.scrollTo(0, 0)
     }
   }
 }

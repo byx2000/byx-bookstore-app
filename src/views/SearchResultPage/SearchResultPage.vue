@@ -4,11 +4,7 @@
       <el-main>
         <order-option-choose :selected="query" @optionChanged="optionChanged"/>
         <h3>共找到 {{totalCount}} 条关于“{{keyword}}”的结果，共 {{totalPage}} 页，当前第 {{query.currentPage}} 页</h3>
-        <el-row>
-          <el-col :span="8" v-for="(book, i) in books" :key="i">
-            <search-result-item class="book-item" :book="book"/>
-          </el-col>
-        </el-row>
+        <book-grid :books="books"/>
         <el-row type="flex" justify="center">
           <el-pagination
             background
@@ -26,13 +22,13 @@
 <script>
 import OrderOptionChoose from './OrderOptionChoose.vue'
 import { getSearchResult } from '../../network/SearchResultPage'
-import SearchResultItem from './SearchResultItem.vue'
+import BookGrid from '../../components/BookGrid.vue'
 
 export default {
   name: 'SearchResultPage',
   components: {
     OrderOptionChoose,
-    SearchResultItem
+    BookGrid
   },
   data() {
     return {

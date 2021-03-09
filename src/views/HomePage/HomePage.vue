@@ -37,7 +37,7 @@ export default {
       for (let category of res.data) {
         getRecommendBooks({
           categoryId: category.id,
-          count: 18
+          count: 15
         }).then(res => {
           this.categoryData.push({
             category,
