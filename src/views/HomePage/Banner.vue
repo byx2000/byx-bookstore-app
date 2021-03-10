@@ -10,7 +10,7 @@
         </el-row>
         <el-row type="flex" justify="space-around">
           <div v-for="(book, i) in group" :key="i">
-            <img :src="book.cover" class="cover" @mouseover="onMouseOver(i)"/>
+            <img :src="book.cover" class="cover" @mouseover="onMouseOver(i)" @click="toBookDetailPage(book.id)"/>
           </div>
         </el-row>
       </el-carousel-item>
@@ -46,13 +46,20 @@ export default {
   methods: {
     onMouseOver(index) {
       this.currentBookIndex = index
+    },
+    toBookDetailPage(bookId) {
+      this.$router.push({
+        path: '/detail',
+        query: {
+          bookId
+        }
+      })
     }
   }
 }
 </script>
 
 <style scoped>
-
 #banner {
   background: url(../../../public/images/banner_background.gif);
   background-position: center;
@@ -64,6 +71,10 @@ export default {
 
 .cover {
   height: 250px;
+}
+
+.cover:hover {
+  cursor: pointer;
 }
 
 .description {
