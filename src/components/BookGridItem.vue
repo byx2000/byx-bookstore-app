@@ -18,8 +18,12 @@
       </el-col>
     </el-row>
     <el-row type="flex">
-      <img class="book-cover" :src="book.cover" @click="toBookDetailPage"/>
-      <p class="book-description">简介：{{book.description}}</p>
+      <el-col :span="9">
+        <el-image class="book-cover" :src="book.cover" @click="toBookDetailPage"/>
+      </el-col>
+      <el-col :span="15">
+        <p class="book-description">简介：{{book.description}}</p>
+      </el-col>
     </el-row>
   </el-card>
 </template>
@@ -87,7 +91,8 @@ export default {
 }
 
 .book-cover {
-  height: 10.5em;
+  width: 156px;
+  height: 208px;
 }
 
 .book-cover:hover {
@@ -97,7 +102,7 @@ export default {
 .book-description {
   margin: 0;
   margin-left: 20px;
-  height: 10.5em;
+  height: 208px;
   overflow: hidden;
 }
 </style>
