@@ -35,7 +35,7 @@
           <span class="book-update-time">
             <i class="fa fa-clock-o" aria-hidden="true"></i> {{book.updateTime}}
           </span>
-          <span class="book-word-count">字数：1234</span>
+          <span class="book-word-count">字数：{{book.wordCount}}</span>
           <el-button type="primary">
             <i class="fa fa-book" aria-hidden="true"></i> 在线阅读
           </el-button>

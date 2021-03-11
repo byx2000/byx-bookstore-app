@@ -1,5 +1,5 @@
 <template>
-  <el-card class="box-card" shadow="hover">
+  <el-card class="box-card">
     <el-row slot="header">
       <el-col :span="10">
         <p class="book-name ellipse" @click="toBookDetailPage">{{book.name}}</p>
@@ -14,7 +14,7 @@
         </el-row>
       </el-col>
       <el-col :span="4">
-        <i class="el-icon-view book-heat"><span>{{book.heat}}</span></i>
+        <span class="book-heat"><i class="fa fa-fire" aria-hidden="true"></i> {{book.heat}}</span>
       </el-col>
     </el-row>
     <el-row type="flex">
@@ -82,12 +82,8 @@ export default {
 }
 
 .book-heat {
-  color: #ed5a30;
-}
-
-.book-heat span {
+  color: tomato;
   font-size: 14px;
-  margin-left: 5px
 }
 
 .book-cover {
@@ -104,5 +100,6 @@ export default {
   margin-left: 20px;
   height: 208px;
   overflow: hidden;
+  text-align: justify;
 }
 </style>
