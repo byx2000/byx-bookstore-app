@@ -2,15 +2,16 @@
   <div>
     <el-container>
       <el-main>
-        <order-option-choose :selected="query" @optionChanged="optionChanged"/>
-        <h3>共找到 {{totalCount}} 条关于“{{keyword}}”的结果，共 {{totalPage}} 页，当前第 {{query.currentPage}} 页</h3>
+        <order-option-choose :selected="{orderBy, orderType}" @optionChanged="optionChanged"/>
+        <h3>共找到 {{totalCount}} 条关于“{{keyword}}”的结果，共 {{totalPage}} 页，当前第 {{currentPage}} 页</h3>
         <book-grid :books="books"/>
         <el-row type="flex" justify="center">
           <el-pagination
             background
             layout="prev, pager, next"
-            :current-page="query.currentPage"
-            :page-count="totalPage"
+            :current-page="currentPage"
+            :total="totalCount"
+            :page-size="pageSize"
             @current-change="onCurrentPageChanged">
           </el-pagination>
         </el-row>
@@ -32,60 +33,75 @@ export default {
   },
   data() {
     return {
-      query: {
-        orderBy: 'score',
-        orderType: 'desc',
-        pageSize: 15,
-        currentPage: 1
-      },
+      pageSize: 15,
       books: [],
       totalCount: 0,
-      totalPage: 0
+      totalPage: 1
     }
   },
   created() {
-    this.query.keyword = this.keyword
-    this.refresh()
+    this.getData()
   },
   computed: {
     keyword() {
       return this.$route.query.keyword
+    },
+    currentPage() {
+      return parseInt(this.$route.query.currentPage)
+    },
+    orderBy() {
+      return this.$route.query.orderBy
+    },
+    orderType() {
+      return this.$route.query.orderType
     }
   },
   methods: {
-    refresh() {
-      getSearchResult(this.query).then(res => {
+    getData() {
+      getSearchResult({
+        keyword: this.keyword,
+        orderBy: this.orderBy,
+        orderType: this.orderType,
+        pageSize: this.pageSize,
+        currentPage: this.currentPage
+      }).then(res => {
         this.books = res.data.data
         this.totalCount = res.data.totalCount
         this.totalPage = res.data.totalPage
       })
     },
     optionChanged(selected) {
-      selected.pageSize = 15
-      selected.currentPage = 1
-      selected.keyword = this.query.keyword
-      this.query = selected
-      this.refresh()
+      this.$router.replace({
+        path: '/search',
+        query: {
+          keyword: this.keyword,
+          orderBy: selected.orderBy,
+          orderType: selected.orderType,
+          pageSize: this.pageSize,
+          currentPage: this.currentPage
+        }
+      })
     },
     onCurrentPageChanged(currentPage) {
-      this.query.currentPage = currentPage
-      this.refresh()
+      this.$router.replace({
+        path: '/search',
+        query: {
+          keyword: this.keyword,
+          orderBy: this.orderBy,
+          orderType: this.orderType,
+          pageSize: this.pageSize,
+          currentPage
+        }
+      })
       window.scrollTo(0, 0)
     }
   },
   watch: {
     '$route': function(to, from) {
-      this.query.keyword = this.$route.query.keyword
-      this.query.pageSize = 15
-      this.query.currentPage = 1
-      this.refresh()
+      if (to.path === '/search') {
+        this.getData()
+      }
     }
   }
 }
 </script>
-
-<style scoped>
-.book-item {
-  margin: 20px 10px 10px 10px;
-}
-</style>

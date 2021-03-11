@@ -86,7 +86,10 @@ export default {
       this.$router.push({
         path: '/search',
         query: {
-          keyword: this.keyword
+          keyword: this.keyword,
+          currentPage: 1,
+          orderBy: 'score',
+          orderType: 'desc'
         }
       })
     },
