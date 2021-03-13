@@ -1,9 +1,12 @@
 <template>
   <el-container>
     <el-main>
-      <book-detail :book="book"/>
-      <comment-order-option-choose @optionChanged="optionChanged"/>
-      <p>共 {{totalCount}} 条评论，共 {{totalPage}} 页，当前第 {{currentPage}} 页</p>
+      <book-detail :book="book" class="book-detail"/>
+      <el-row type="flex" align="middle">
+        <span>评论区</span>
+        <comment-order-option-choose :selected="{orderType}" @optionChanged="optionChanged" class="order-option"/>
+        <span>共 {{totalCount}} 条评论，共 {{totalPage}} 页，当前第 {{currentPage}} 页</span>
+      </el-row>
       <book-comment-list :comments="comments"/>
       <el-row type="flex" justify="center">
         <el-pagination
@@ -88,8 +91,21 @@ export default {
         this.getBookData()
         this.getCommentData()
         this.currentPage = 1
+        this.orderType = 'desc'
+        window.scrollTo(0, 0)
       }
     }
   }
 }
 </script>
+
+<style scoped>
+.book-detail {
+  margin-bottom: 20px;
+}
+
+.order-option {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+</style>

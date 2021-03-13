@@ -29,3 +29,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.el-form-item{
+  margin: 0;
+}
+</style>
