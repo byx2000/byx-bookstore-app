@@ -10,3 +10,11 @@ export function getBookDetail(bookId) {
     }
   })
 }
+
+export function getBookComments(query) {
+  return request({
+    url: '/comment/list-of-book',
+    method: 'post',
+    data: query
+  })
+}
