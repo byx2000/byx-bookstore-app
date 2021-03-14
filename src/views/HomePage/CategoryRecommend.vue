@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-tabs :value="firstCategoryName" :stretch="true">
+    <el-tabs :value="firstCategoryName" :stretch="true" @tab-click="onTabChanged">
       <el-tab-pane v-for="(item, index) in recommendData" 
         :key="index" 
         :label="item.category.name" 
@@ -27,9 +27,9 @@ export default {
       }
     }
   },
-  data() {
-    return {
-      
+  methods: {
+    onTabChanged(tab) {
+      this.$emit('onTabChanged', parseInt(tab.index))
     }
   },
   computed: {

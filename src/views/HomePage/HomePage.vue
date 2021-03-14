@@ -3,7 +3,7 @@
     <banner :books="bannerData"/>
     <el-container>
       <el-main>
-        <category-recommend :recommend-data="categoryData"/>
+        <category-recommend :recommend-data="categoryData" @onTabChanged="onTabChanged"/>
       </el-main>
     </el-container>
   </div>
@@ -21,6 +21,7 @@ export default {
   data() {
     return {
       bannerData: [],
+      categories: [],
       categoryData: []
     }
   },
@@ -33,30 +34,40 @@ export default {
 
     getAllCategories().then(res => {
       let categories = res.data
-
-      for (let category of res.data) {
-        getRecommendBooks({
-          categoryId: category.id,
-          count: 15
-        }).then(res => {
-          this.categoryData.push({
-            category,
-            books: res.data
-          })
-          if (this.categoryData.length === categories.length) {
-            this.categoryData.sort((a, b) => {
-              return a.category.id - b.category.id
-            })
-          }
+      this.categories = categories
+      for (let c of categories) {
+        this.categoryData.push({
+          category: c,
+          books: []
         })
       }
+      getRecommendBooks({
+        categoryId: categories[0].id,
+        count: 15
+      }).then(res => {
+        this.categoryData.splice(0, 1, {
+          category: categories[0],
+          books: res.data
+        })
+      })
     })
+  },
+  methods: {
+    onTabChanged(index) {
+      if (this.categoryData[index].books.length === 0) {
+        getRecommendBooks({
+          categoryId: this.categories[index].id,
+          count: 15
+        }).then(res => {
+          this.categoryData[index].books = res.data
+        })
+      }
+    }
   }
 }
 </script>
 
 <style scoped>
-
 .category-recommend {
   margin-top: 20px;
 }
@@ -64,5 +75,4 @@ export default {
 .category-recommend-text{
   margin-top: 35px;
 }
-
 </style>
