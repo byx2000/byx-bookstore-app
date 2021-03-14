@@ -26,7 +26,7 @@
               <el-dropdown-item v-if="userInfo === null" @click.native="loginDlalogOpen = true">登录</el-dropdown-item>
               <el-dropdown-item v-if="userInfo === null">注册</el-dropdown-item>
               <el-dropdown-item v-if="userInfo !== null">我的主页</el-dropdown-item>
-              <el-dropdown-item v-if="userInfo !== null">注销</el-dropdown-item>
+              <el-dropdown-item v-if="userInfo !== null" @click.native="logout">注销</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
           <el-form :inline="true" class="demo-form-inline" @submit.native.prevent>
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { login, getCurrentUser } from '../network/common'
+import { login, getCurrentUser, logout as logoutRequest } from '../network/common'
 import { CODE_SUCCESS } from '../common/constants'
 
 export default {
@@ -103,10 +103,13 @@ export default {
           this.loginDlalogOpen = false
         }
         else {
-          this.loginDlalogOpen = false
-          console.log('登录失败：' + res.msg)
+          this.$message.error('用户名或密码错误');
         }
       })
+    },
+    logout() {
+      logoutRequest()
+      window.location.reload()
     }
   }
 }

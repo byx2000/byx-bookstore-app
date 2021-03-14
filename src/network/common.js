@@ -20,3 +20,10 @@ export function getCurrentUser() {
     method: 'post'
   })
 }
+
+export function logout() {
+	request({
+    url: '/user/logout',
+    method: 'post'
+	})
+}
