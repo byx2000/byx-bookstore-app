@@ -78,7 +78,7 @@ export default {
           orderBy: selected.orderBy,
           orderType: selected.orderType,
           pageSize: this.pageSize,
-          currentPage: this.currentPage
+          currentPage: 1
         }
       })
     },
