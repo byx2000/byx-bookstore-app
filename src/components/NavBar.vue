@@ -25,7 +25,7 @@
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item v-if="userInfo === null" @click.native="loginDlalogOpen = true">登录</el-dropdown-item>
               <el-dropdown-item v-if="userInfo === null">注册</el-dropdown-item>
-              <el-dropdown-item v-if="userInfo !== null">我的主页</el-dropdown-item>
+              <el-dropdown-item v-if="userInfo !== null" @click.native="toProfilePage">我的主页</el-dropdown-item>
               <el-dropdown-item v-if="userInfo !== null" @click.native="logout">注销</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -108,8 +108,17 @@ export default {
       })
     },
     logout() {
-      logoutRequest()
-      window.location.reload()
+      logoutRequest().then(res => {
+        this.userInfo = null
+        if (this.$route.path === '/profile') {
+          this.$router.replace('/home')
+        }
+      })   
+    },
+    toProfilePage() {
+      this.$router.replace({
+        path: '/profile'
+      })
     }
   }
 }
