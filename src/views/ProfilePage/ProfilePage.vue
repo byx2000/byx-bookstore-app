@@ -27,7 +27,7 @@
           </el-menu>
         </el-col>
         <el-col v-if="currentTabIndex === '0'" :span="21" class="user-comment">
-          我的评论
+          <user-comment-tab :commentData="commentData" :commentQuery="commentQuery" @onCurrentPageChanged="onCommentCurrentPageChanged"/>
         </el-col>
         <el-col v-if="currentTabIndex === '1'" :span="21" class="user-favorite">
           我的收藏
@@ -42,23 +42,52 @@
 
 <script>
 import { getCurrentUser } from '../../network/common'
+import { getUserComments } from '../../network/ProfilePage'
+import UserCommentTab from './UserCommentTab.vue'
 
 export default {
+  components: { UserCommentTab },
   name: 'ProfilePage',
   data() {
     return {
       userInfo: {},
-      currentTabIndex: '0'
+      currentTabIndex: '0',
+      commentQuery: {
+        commentKeyword: '',
+        bookKeyword: '',
+        orderType: 'desc',
+        currentPage: 1,
+        pageSize: 10
+      },
+      commentData: {
+        comments: [],
+        totalCount: 0,
+        totalPage: 0
+      }
     }
   },
   created() {
     getCurrentUser().then(res => {
       this.userInfo = res.data
     })
+
+    this.getCommentData()
   },
   methods: {
     onTabChanged(index) {
       this.currentTabIndex = index
+    },
+    getCommentData() {
+      getUserComments(this.commentQuery).then(res => {
+        this.commentData.comments = res.data.data
+        this.commentData.totalCount = res.data.totalCount
+        this.commentData.totalPage = res.data.totalPage
+      })
+    },
+    onCommentCurrentPageChanged(currentPage) {
+      this.commentQuery.currentPage = currentPage
+      this.getCommentData()
+      window.scrollTo(0, 0)
     }
   }
 }
