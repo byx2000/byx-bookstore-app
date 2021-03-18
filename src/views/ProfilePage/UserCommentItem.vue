@@ -1,7 +1,7 @@
 <template>
   <el-card class="box-card comment-item">
     <el-row slot="header" type="flex" justify="space-between">
-      <span>{{comment.bookName}}</span>
+      <span class="book-name">{{comment.bookName}}</span>
       <span>发表时间：{{comment.time}}</span>
     </el-row>
     <p>{{comment.content}}</p>
@@ -26,5 +26,9 @@ export default {
 .comment-item {
   margin-top: 20px;
   margin-bottom: 20px;
+}
+
+.book-name {
+  font-weight: bold;
 }
 </style>

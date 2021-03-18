@@ -1,5 +1,6 @@
 <template>
   <div>
+    <comment-query-option @onSearchClick="onSearchClick"/>
     <h3>共 {{commentData.totalCount}} 条评论，共 {{commentData.totalPage}} 页，当前第 {{commentQuery.currentPage}} 页</h3>
     <user-comment-list :comments="commentData.comments"/>
     <el-row type="flex" justify="center">
@@ -16,10 +17,11 @@
 </template>
 
 <script>
+import CommentQueryOption from './CommentQueryOption.vue'
 import UserCommentList from './UserCommentList.vue'
 
 export default {
-  components: { UserCommentList },
+  components: { UserCommentList, CommentQueryOption },
   name: 'UserCommentTab',
   props: {
     commentData: {
@@ -38,6 +40,9 @@ export default {
   methods: {
     onCurrentPageChanged(currentPage) {
       this.$emit("onCurrentPageChanged", currentPage)
+    },
+    onSearchClick(selected) {
+      this.$emit("onSearchClick", selected)
     }
   }
 }

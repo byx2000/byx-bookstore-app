@@ -27,7 +27,10 @@
           </el-menu>
         </el-col>
         <el-col v-if="currentTabIndex === '0'" :span="21" class="user-comment">
-          <user-comment-tab :commentData="commentData" :commentQuery="commentQuery" @onCurrentPageChanged="onCommentCurrentPageChanged"/>
+          <user-comment-tab :commentData="commentData" 
+            :commentQuery="commentQuery" 
+            @onCurrentPageChanged="onCommentCurrentPageChanged"
+            @onSearchClick="onCommentSearchClick"/>
         </el-col>
         <el-col v-if="currentTabIndex === '1'" :span="21" class="user-favorite">
           我的收藏
@@ -88,6 +91,13 @@ export default {
       this.commentQuery.currentPage = currentPage
       this.getCommentData()
       window.scrollTo(0, 0)
+    },
+    onCommentSearchClick(selected) {
+      this.commentQuery.bookKeyword = selected.bookKeyword
+      this.commentQuery.commentKeyword = selected.commentKeyword
+      this.commentQuery.orderType = selected.orderType
+      this.commentQuery.currentPage = 1
+      this.getCommentData()
     }
   }
 }
