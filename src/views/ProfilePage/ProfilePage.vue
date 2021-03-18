@@ -33,7 +33,10 @@
             @onSearchClick="onCommentSearchClick"/>
         </el-col>
         <el-col v-if="currentTabIndex === '1'" :span="21" class="user-favorite">
-          我的收藏
+          <user-favorite-tab :favoriteData="favoriteData"
+            :favoriteQuery="favoriteQuery"
+            @onSearchClick="onFavoriteSearchClick"
+            @onCurrentPageChanged="onFavoriteCurrentPageChanged"/>
         </el-col>
         <el-col v-if="currentTabIndex === '2'" :span="21" class="user-bookmark">
           我的书签
@@ -45,11 +48,12 @@
 
 <script>
 import { getCurrentUser } from '../../network/common'
-import { getUserComments } from '../../network/ProfilePage'
+import { getUserComments, getUserFavorites } from '../../network/ProfilePage'
 import UserCommentTab from './UserCommentTab.vue'
+import UserFavoriteTab from './UserFavoriteTab.vue'
 
 export default {
-  components: { UserCommentTab },
+  components: { UserCommentTab, UserFavoriteTab },
   name: 'ProfilePage',
   data() {
     return {
@@ -66,6 +70,18 @@ export default {
         comments: [],
         totalCount: 0,
         totalPage: 0
+      },
+      favoriteQuery: {
+        bookKeyword: '',
+        authorKeyword: '',
+        orderType: 'desc',
+        currentPage: 1,
+        pageSize: 10
+      },
+      favoriteData: {
+        favorites: [],
+        totalCount: 0,
+        totalPage: 0
       }
     }
   },
@@ -78,6 +94,9 @@ export default {
   },
   methods: {
     onTabChanged(index) {
+      if (index == 1 && this.favoriteData.favorites.length === 0) {
+        this.getFavoriteData()
+      }
       this.currentTabIndex = index
     },
     getCommentData() {
@@ -85,6 +104,13 @@ export default {
         this.commentData.comments = res.data.data
         this.commentData.totalCount = res.data.totalCount
         this.commentData.totalPage = res.data.totalPage
+      })
+    },
+    getFavoriteData() {
+      getUserFavorites(this.favoriteQuery).then(res => {
+        this.favoriteData.favorites = res.data.data
+        this.favoriteData.totalCount = res.data.totalCount
+        this.favoriteData.totalPage = res.data.totalPage
       })
     },
     onCommentCurrentPageChanged(currentPage) {
@@ -98,6 +124,18 @@ export default {
       this.commentQuery.orderType = selected.orderType
       this.commentQuery.currentPage = 1
       this.getCommentData()
+    },
+    onFavoriteSearchClick(selected) {
+      this.favoriteQuery.bookKeyword = selected.bookKeyword
+      this.favoriteQuery.authorKeyword = selected.authorKeyword
+      this.favoriteQuery.orderType = selected.orderType
+      this.favoriteQuery.currentPage = 1
+      this.getFavoriteData()
+    },
+    onFavoriteCurrentPageChanged(currentPage) {
+      this.favoriteQuery.currentPage = currentPage
+      this.getFavoriteData()
+      window.scrollTo(0, 0)
     }
   }
 }

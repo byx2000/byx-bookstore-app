@@ -7,3 +7,11 @@ export function getUserComments(query) {
     data: query
   })
 }
+
+export function getUserFavorites(query) {
+  return request({
+    url: '/favorite/query',
+    method: 'post',
+    data: query
+  })
+}
