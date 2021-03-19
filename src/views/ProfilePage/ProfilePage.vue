@@ -142,7 +142,11 @@ export default {
 </script>
 
 <style scoped>
-.user-info {
+.user-avatar {
+  margin-bottom: 20px;
+}
+
+.user-nickname {
   margin-bottom: 20px;
 }
 
