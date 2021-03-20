@@ -18,3 +18,11 @@ export function getBookComments(query) {
     data: query
   })
 }
+
+export function publishComment(data) {
+  return request({
+    url: '/comment/publish',
+    method: 'post',
+    data
+  })
+}

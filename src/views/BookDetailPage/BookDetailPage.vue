@@ -6,6 +6,7 @@
         <span>评论区</span>
         <comment-order-option-choose :selected="{orderType}" @optionChanged="optionChanged" class="order-option"/>
         <span>共 {{totalCount}} 条评论，共 {{totalPage}} 页，当前第 {{currentPage}} 页</span>
+        <el-button type="primary" icon="el-icon-s-comment" class="write-comment" @click="commentEditDlalogOpen = true">写评论</el-button>
       </el-row>
       <book-comment-list :comments="comments"/>
       <el-row type="flex" justify="center">
@@ -19,11 +20,24 @@
         </el-pagination>
       </el-row>
     </el-main>
+    <el-dialog title="发表评论" width="50%" :visible.sync="commentEditDlalogOpen">
+      <el-input
+        type="textarea"
+        :rows="5"
+        placeholder="请输入评论内容"
+        v-model="commentText">
+      </el-input>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="commentEditDlalogOpen = false">取 消</el-button>
+        <el-button type="primary" @click="publishComment">发 表</el-button>
+      </span>
+    </el-dialog>
   </el-container>
 </template>
 
 <script>
-import { getBookDetail, getBookComments } from '../../network/BookDetailPage'
+import { CODE_SUCCESS } from '../../common/constants'
+import { getBookDetail, getBookComments, publishComment } from '../../network/BookDetailPage'
 import BookCommentList from './BookCommentList.vue'
 import BookDetail from './BookDetail.vue'
 import CommentOrderOptionChoose from './CommentOrderOptionChoose.vue'
@@ -48,7 +62,9 @@ export default {
       currentPage: 1,
       orderType: 'desc',
       totalCount: 0,
-      totalPage: 0
+      totalPage: 0,
+      commentEditDlalogOpen: false,
+      commentText: ""
     }
   },
   created() {
@@ -83,6 +99,19 @@ export default {
       this.currentPage = currentPage
       this.getCommentData()
       window.scrollTo(0, 0)
+    },
+    publishComment() {
+      publishComment({
+        bookId: this.bookId,
+        content: this.commentText
+      }).then(res => {
+        if (res.code === CODE_SUCCESS) {
+          this.commentEditDlalogOpen = false
+          window.location.reload()
+        } else {
+          this.$message.error('当前未登录')
+        }
+      })
     }
   },
   watch: {
@@ -107,5 +136,9 @@ export default {
 .order-option {
   margin-left: 20px;
   margin-right: 20px;
+}
+
+.write-comment {
+  margin-left: 20px;
 }
 </style>
