@@ -101,6 +101,7 @@ export default {
         if (res.code === CODE_SUCCESS) {
           this.userInfo = res.data
           this.loginDlalogOpen = false
+          window.location.reload()
         }
         else {
           this.$message.error('用户名或密码错误');
@@ -112,6 +113,8 @@ export default {
         this.userInfo = null
         if (this.$route.path === '/profile') {
           this.$router.replace('/home')
+        } else {
+          window.location.reload()
         }
       })   
     },

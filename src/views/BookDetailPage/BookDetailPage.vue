@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-main>
-      <book-detail :book="book" class="book-detail"/>
+      <book-detail :book="book" :isFavorite="isFavorite" class="book-detail"/>
       <el-row type="flex" align="middle">
         <span>评论区</span>
         <comment-order-option-choose :selected="{orderType}" @optionChanged="optionChanged" class="order-option"/>
@@ -37,7 +37,7 @@
 
 <script>
 import { CODE_SUCCESS } from '../../common/constants'
-import { getBookDetail, getBookComments, publishComment } from '../../network/BookDetailPage'
+import { getBookDetail, getBookComments, publishComment, isFavorite } from '../../network/BookDetailPage'
 import BookCommentList from './BookCommentList.vue'
 import BookDetail from './BookDetail.vue'
 import CommentOrderOptionChoose from './CommentOrderOptionChoose.vue'
@@ -64,12 +64,17 @@ export default {
       totalCount: 0,
       totalPage: 0,
       commentEditDlalogOpen: false,
-      commentText: ""
+      commentText: "",
+      isFavorite: false
     }
   },
   created() {
     this.getBookData()
     this.getCommentData()
+    this.getIsFavorite()
+  },
+  activated() {
+    this.getIsFavorite()
   },
   methods: {
     getBookData() {
@@ -88,6 +93,13 @@ export default {
         this.comments = res.data.data
         this.totalCount = res.data.totalCount
         this.totalPage = res.data.totalPage
+      })
+    },
+    getIsFavorite() {
+      isFavorite(this.bookId).then(res => {
+        if (res.code === CODE_SUCCESS) {
+          this.isFavorite = res.data
+        }
       })
     },
     optionChanged(selected) {

@@ -26,3 +26,14 @@ export function publishComment(data) {
     data
   })
 }
+
+export function isFavorite(bookId) {
+  return request({
+    url: '/favorite/is-favorite',
+    method: 'post',
+    data: bookId,
+    headers: {
+      "content-type": "application/json"
+    }
+  })
+}
