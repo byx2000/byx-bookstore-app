@@ -1,7 +1,11 @@
 <template>
   <el-container>
     <el-main>
-      <book-detail :book="book" :isFavorite="isFavorite" class="book-detail"/>
+      <book-detail :book="book" 
+        :isFavorite="isFavorite" 
+        class="book-detail"
+        @addFavorite="addFavorite"
+        @cancelFavorite="cancelFavorite"/>
       <el-row type="flex" align="middle">
         <span>评论区</span>
         <comment-order-option-choose :selected="{orderType}" @optionChanged="optionChanged" class="order-option"/>
@@ -37,7 +41,7 @@
 
 <script>
 import { CODE_SUCCESS } from '../../common/constants'
-import { getBookDetail, getBookComments, publishComment, isFavorite } from '../../network/BookDetailPage'
+import { getBookDetail, getBookComments, publishComment, isFavorite, addFavorite, cancelFavorite } from '../../network/BookDetailPage'
 import BookCommentList from './BookCommentList.vue'
 import BookDetail from './BookDetail.vue'
 import CommentOrderOptionChoose from './CommentOrderOptionChoose.vue'
@@ -122,6 +126,24 @@ export default {
           window.location.reload()
         } else {
           this.$message.error('当前未登录')
+        }
+      })
+    },
+    addFavorite() {
+      addFavorite(this.bookId).then(res => {
+        if (res.code !== CODE_SUCCESS) {
+          this.$message.error('当前未登录')
+        } else {
+          this.isFavorite = true
+        }
+      })
+    },
+    cancelFavorite() {
+      cancelFavorite(this.bookId).then(res => {
+        if (res.code !== CODE_SUCCESS) {
+          this.$message.error('当前未登录')
+        } else {
+          this.isFavorite = false
         }
       })
     }

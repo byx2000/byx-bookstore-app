@@ -37,3 +37,25 @@ export function isFavorite(bookId) {
     }
   })
 }
+
+export function addFavorite(bookId) {
+  return request({
+    url: '/favorite/add',
+    method: 'post',
+    data: bookId,
+    headers: {
+      "content-type": "application/json"
+    }
+  })
+}
+
+export function cancelFavorite(bookId) {
+  return request({
+    url: '/favorite/cancel',
+    method: 'post',
+    data: bookId,
+    headers: {
+      "content-type": "application/json"
+    }
+  })
+}

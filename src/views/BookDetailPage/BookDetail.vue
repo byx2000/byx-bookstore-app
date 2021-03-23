@@ -39,10 +39,10 @@
           <el-button type="primary">
             <i class="fa fa-book" aria-hidden="true"></i> 在线阅读
           </el-button>
-          <el-button v-if="!isFavorite" type="success">
+          <el-button v-if="!isFavorite" type="success" @click="addFavorite">
             <i class="fa fa-star-o" aria-hidden="true"></i> 收藏
           </el-button>
-          <el-button v-if="isFavorite" type="success">
+          <el-button v-if="isFavorite" type="success" @click="cancelFavorite">
             <i class="fa fa-star" aria-hidden="true"></i> 取消收藏
           </el-button>
         </el-row>
@@ -73,6 +73,14 @@ export default {
   computed: {
     bookScoreValue() {
       return this.book.score / 2
+    }
+  },
+  methods: {
+    addFavorite() {
+      this.$emit('addFavorite')
+    },
+    cancelFavorite() {
+      this.$emit('cancelFavorite')
     }
   }
 }
