@@ -24,7 +24,7 @@
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item v-if="userInfo === null" @click.native="loginDlalogOpen = true">登录</el-dropdown-item>
-              <el-dropdown-item v-if="userInfo === null">注册</el-dropdown-item>
+              <el-dropdown-item v-if="userInfo === null" @click.native="registerDialogOpen = true">注册</el-dropdown-item>
               <el-dropdown-item v-if="userInfo !== null" @click.native="toProfilePage">我的主页</el-dropdown-item>
               <el-dropdown-item v-if="userInfo !== null" @click.native="logout">注销</el-dropdown-item>
             </el-dropdown-menu>
@@ -42,6 +42,7 @@
         </el-row>
       </el-col>
     </el-row>
+    <!--登录对话框-->
     <el-dialog title="登录" width="30%" :visible.sync="loginDlalogOpen">
       <el-form>
         <el-form-item label="用户名">
@@ -56,12 +57,43 @@
         <el-button type="primary" @click="login">确 定</el-button>
       </span>
     </el-dialog>
+    <!--注册对话框-->
+    <el-dialog title="注册" width="30%" :visible.sync="registerDialogOpen">
+      <el-row class="margin-bottom-20">
+        <el-input placeholder="请输入用户名" v-model="registerData.username"></el-input>
+      </el-row>
+      <el-row class="margin-bottom-20">
+        <el-input placeholder="请输入昵称" v-model="registerData.nickname"></el-input>
+      </el-row>
+      <el-row class="margin-bottom-20">
+        <el-input placeholder="请输入密码" v-model="registerData.password" show-password></el-input>
+      </el-row>
+      <el-row type="flex" align="middle" class="margin-bottom-20">
+        <span>用户头像：</span>
+        <el-upload
+          :show-file-list="false"
+          action="https://jsonplaceholder.typicode.com/posts/"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload">
+          <el-button v-if="registerData.userAvatarUrl === null" size="small" type="primary">点击上传头像</el-button>
+          <el-avatar v-if="registerData.userAvatarUrl !== null" :size="40" :src="registerData.userAvatarUrl"/>
+        </el-upload>
+      </el-row>
+      <el-row type="flex">
+        <el-input placeholder="验证码" class="margin-right-20" v-model="registerData.checkCode"></el-input>
+        <el-image src="http://182.92.74.74:8888/byx-bookstore-api/check-code/generate" @click="changeCheckCode($event)"/>
+      </el-row>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="registerDialogOpen = false">取 消</el-button>
+        <el-button type="primary" @click="register">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { login, getCurrentUser, logout as logoutRequest } from '../network/common'
-import { CODE_SUCCESS } from '../common/constants'
+import { login, getCurrentUser, logout as logoutRequest, register } from '../network/common'
+import { CODE_SUCCESS, CODE_USER_EXIST } from '../common/constants'
 
 export default {
   name: 'NavBar',
@@ -69,9 +101,19 @@ export default {
     return {
       keyword: '',
       loginDlalogOpen: false,
+      registerDialogOpen: false,
       username: '',
       password: '',
-      userInfo: null
+      userInfo: null,
+      
+      registerData: {
+        username: '',
+        nickname: '',
+        password: '',
+        userAvatarUrl: null,
+        avatar: null,
+        checkCode: ''
+      }
     }
   },
   created() {
@@ -122,6 +164,45 @@ export default {
       this.$router.replace({
         path: '/profile'
       })
+    },
+    handleAvatarSuccess(res, file) {
+      this.registerData.userAvatarUrl = URL.createObjectURL(file.raw);
+      this.registerData.avatar = file.raw
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg';
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+      }
+      return isJPG && isLt2M;
+    },
+    changeCheckCode(img) {
+      img.currentTarget.src = 'http://182.92.74.74:8888/byx-bookstore-api/check-code/generate?timestamp=' + Date.now()
+    },
+    register() {
+      let formData = new FormData();
+      formData.append("username", this.registerData.username);
+      formData.append("password", this.registerData.password);
+      formData.append("nickname", this.registerData.nickname);
+      formData.append("avatar", this.registerData.avatar);
+      formData.append("checkCode", this.registerData.checkCode);
+      console.log(this.registerData.userAvatarUrl)
+      register(formData).then(res => {
+        if (res.code === CODE_SUCCESS) {
+          this.$message.success('注册成功！')
+        } else if (res.code === CODE_USER_EXIST) {
+          this.$message.error('用户已存在！')
+        } else {
+          this.$message.error('注册失败：' + res.data)
+        }
+        console.log(this.registerData.username)
+        this.registerDialogOpen = false
+      })
     }
   }
 }
@@ -149,5 +230,17 @@ export default {
 .user-dropdown {
   margin-right: 20px;
   cursor: pointer;
+}
+
+.avatar-upload {
+  margin-top: 20px;
+}
+
+.margin-bottom-20 {
+  margin-bottom: 20px;
+}
+
+.margin-right-20 {
+  margin-right: 20px;
 }
 </style>
