@@ -81,7 +81,7 @@
       </el-row>
       <el-row type="flex">
         <el-input placeholder="验证码" class="margin-right-20" v-model="registerData.checkCode"></el-input>
-        <el-image src="http://182.92.74.74:8888/byx-bookstore-api/check-code/generate" @click="changeCheckCode($event)"/>
+        <el-image ref="checkCodeImage" :src="checkCodeImageUrl" @click="changeCheckCode"/>
       </el-row>
       <span slot="footer" class="dialog-footer">
         <el-button @click="registerDialogOpen = false">取 消</el-button>
@@ -105,7 +105,7 @@ export default {
       username: '',
       password: '',
       userInfo: null,
-      
+      checkCodeImageUrl: 'http://182.92.74.74:8888/byx-bookstore-api/check-code/generate',
       registerData: {
         username: '',
         nickname: '',
@@ -181,8 +181,8 @@ export default {
       }
       return isJPG && isLt2M;
     },
-    changeCheckCode(img) {
-      img.currentTarget.src = 'http://182.92.74.74:8888/byx-bookstore-api/check-code/generate?timestamp=' + Date.now()
+    changeCheckCode() {
+      this.checkCodeImageUrl = 'http://182.92.74.74:8888/byx-bookstore-api/check-code/generate?timestamp=' + Date.now()
     },
     register() {
       let formData = new FormData();
@@ -191,17 +191,17 @@ export default {
       formData.append("nickname", this.registerData.nickname);
       formData.append("avatar", this.registerData.avatar);
       formData.append("checkCode", this.registerData.checkCode);
-      console.log(this.registerData.userAvatarUrl)
       register(formData).then(res => {
         if (res.code === CODE_SUCCESS) {
           this.$message.success('注册成功！')
+          this.registerDialogOpen = false
         } else if (res.code === CODE_USER_EXIST) {
           this.$message.error('用户已存在！')
         } else {
           this.$message.error('注册失败：' + res.data)
         }
-        console.log(this.registerData.username)
-        this.registerDialogOpen = false
+        this.changeCheckCode()
+        
       })
     }
   }
