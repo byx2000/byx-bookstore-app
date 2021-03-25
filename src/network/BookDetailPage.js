@@ -81,3 +81,47 @@ export function isDislike(bookId){
     }
   })
 }
+
+export function like(bookId){
+  return request({
+    url: '/evaluate/like',
+    method: 'post',
+    data: bookId,
+    headers: {
+      "content-type": "application/json"
+    }
+  })
+}
+
+export function dislike(bookId){
+  return request({
+    url: '/evaluate/dislike',
+    method: 'post',
+    data: bookId,
+    headers: {
+      "content-type": "application/json"
+    }
+  })
+}
+
+export function cancelLike(bookId){
+  return request({
+    url: '/evaluate/cancel-like',
+    method: 'post',
+    data: bookId,
+    headers: {
+      "content-type": "application/json"
+    }
+  })
+}
+
+export function cancelDislike(bookId){
+  return request({
+    url: '/evaluate/cancel-dislike',
+    method: 'post',
+    data: bookId,
+    headers: {
+      "content-type": "application/json"
+    }
+  })
+}

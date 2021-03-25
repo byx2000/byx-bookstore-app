@@ -7,7 +7,9 @@
         @addFavorite="addFavorite"
         @cancelFavorite="cancelFavorite"
         :isLike="isLike"
-        :isDislike="isDislike"/>
+        :isDislike="isDislike"
+        @like="like"
+        @dislike="dislike"/>
       <el-row type="flex" align="middle">
         <span>评论区</span>
         <comment-order-option-choose :selected="{orderType}" @optionChanged="optionChanged" class="order-option"/>
@@ -43,7 +45,11 @@
 
 <script>
 import { CODE_SUCCESS } from '../../common/constants'
-import { getBookDetail, getBookComments, publishComment, isFavorite, addFavorite, cancelFavorite, isLike, isDislike } from '../../network/BookDetailPage'
+import { 
+  getBookDetail, getBookComments, publishComment, 
+  isFavorite, addFavorite, cancelFavorite, isLike, isDislike,
+  like, dislike, cancelLike, cancelDislike
+} from '../../network/BookDetailPage'
 import BookCommentList from './BookCommentList.vue'
 import BookDetail from './BookDetail.vue'
 import CommentOrderOptionChoose from './CommentOrderOptionChoose.vue'
@@ -163,6 +169,56 @@ export default {
           this.isFavorite = false
         }
       })
+    },
+    like() {
+      if (this.isLike) {
+        cancelLike(this.bookId).then(res => {
+          if (res.code === CODE_SUCCESS) {
+            this.book.likeCount--
+            this.isLike = !this.isLike
+          } else {
+            this.$message.error('当前未登录')
+          }
+        })
+      } else {
+        like(this.bookId).then(res => {
+          if (res.code === CODE_SUCCESS) {
+            if (this.isDislike) {
+              this.isDislike = false
+              this.book.dislikeCount--
+            }
+            this.book.likeCount++
+            this.isLike = !this.isLike
+          } else {
+            this.$message.error('当前未登录')
+          }
+        })
+      }
+    },
+    dislike() {
+      if (this.isDislike) {
+        cancelDislike(this.bookId).then(res => {
+          if (res.code === CODE_SUCCESS) {
+            this.book.dislikeCount--
+            this.isDislike = !this.isDislike
+          } else {
+            this.$message.error('当前未登录')
+          }
+        })
+      } else {
+        dislike(this.bookId).then(res => {
+          if (res.code === CODE_SUCCESS) {
+            if (this.isLike) {
+              this.isLike = false
+              this.book.likeCount--
+            }
+            this.book.dislikeCount++
+            this.isDislike = !this.isDislike
+          } else {
+            this.$message.error('当前未登录')
+          }
+        })
+      }
     }
   },
   watch: {

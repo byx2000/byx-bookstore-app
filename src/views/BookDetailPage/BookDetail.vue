@@ -15,11 +15,11 @@
         </span>
       </el-row>
       <el-row type="flex">
-        <el-button type="danger" class="book-like-count">
+        <el-button type="danger" class="book-like-count" @click="like">
           <i v-if="!isLike" class="fa fa-thumbs-o-up" aria-hidden="true"></i>
           <i v-if="isLike" class="fa fa-thumbs-up" aria-hidden="true"></i> {{book.likeCount}}
         </el-button>
-        <el-button type="info" class="book-dislike-count">
+        <el-button type="info" class="book-dislike-count" @click="dislike">
           <i v-if="!isDislike" class="fa fa-thumbs-o-down" aria-hidden="true"></i>
           <i v-if="isDislike" class="fa fa-thumbs-down" aria-hidden="true"></i> {{book.dislikeCount}}
         </el-button>
@@ -95,6 +95,12 @@ export default {
     },
     cancelFavorite() {
       this.$emit('cancelFavorite')
+    },
+    like() {
+      this.$emit('like')
+    },
+    dislike() {
+      this.$emit('dislike')
     }
   }
 }
