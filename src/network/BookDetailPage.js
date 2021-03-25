@@ -59,3 +59,25 @@ export function cancelFavorite(bookId) {
     }
   })
 }
+
+export function isLike(bookId){
+  return request({
+    url: '/evaluate/is-like',
+    method: 'post',
+    data: bookId,
+    headers: {
+      "content-type": "application/json"
+    }
+  })
+}
+
+export function isDislike(bookId){
+  return request({
+    url: '/evaluate/is-dislike',
+    method: 'post',
+    data: bookId,
+    headers: {
+      "content-type": "application/json"
+    }
+  })
+}

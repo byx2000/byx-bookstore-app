@@ -5,7 +5,9 @@
         :isFavorite="isFavorite" 
         class="book-detail"
         @addFavorite="addFavorite"
-        @cancelFavorite="cancelFavorite"/>
+        @cancelFavorite="cancelFavorite"
+        :isLike="isLike"
+        :isDislike="isDislike"/>
       <el-row type="flex" align="middle">
         <span>评论区</span>
         <comment-order-option-choose :selected="{orderType}" @optionChanged="optionChanged" class="order-option"/>
@@ -41,7 +43,7 @@
 
 <script>
 import { CODE_SUCCESS } from '../../common/constants'
-import { getBookDetail, getBookComments, publishComment, isFavorite, addFavorite, cancelFavorite } from '../../network/BookDetailPage'
+import { getBookDetail, getBookComments, publishComment, isFavorite, addFavorite, cancelFavorite, isLike, isDislike } from '../../network/BookDetailPage'
 import BookCommentList from './BookCommentList.vue'
 import BookDetail from './BookDetail.vue'
 import CommentOrderOptionChoose from './CommentOrderOptionChoose.vue'
@@ -69,16 +71,17 @@ export default {
       totalPage: 0,
       commentEditDlalogOpen: false,
       commentText: "",
-      isFavorite: false
+      isFavorite: false,
+      isLike: false,
+      isDislike: false
     }
   },
-  created() {
+  activated() {
     this.getBookData()
     this.getCommentData()
     this.getIsFavorite()
-  },
-  activated() {
-    this.getIsFavorite()
+    this.getIsLike()
+    this.getIsDislike()
   },
   methods: {
     getBookData() {
@@ -103,6 +106,20 @@ export default {
       isFavorite(this.bookId).then(res => {
         if (res.code === CODE_SUCCESS) {
           this.isFavorite = res.data
+        }
+      })
+    },
+    getIsLike() {
+      isLike(this.bookId).then(res => {
+        if (res.code === CODE_SUCCESS) {
+          this.isLike = res.data
+        }
+      })
+    },
+    getIsDislike() {
+      isDislike(this.bookId).then(res => {
+        if (res.code === CODE_SUCCESS) {
+          this.isDislike = res.data
         }
       })
     },
