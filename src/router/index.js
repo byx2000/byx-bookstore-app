@@ -8,6 +8,7 @@ const RankPage = () => import('../views/RankPage/RankPage.vue')
 const ProfilePage = () => import('../views/ProfilePage/ProfilePage.vue')
 const SearchResultPage = () => import('../views/SearchResultPage/SearchResultPage.vue')
 const BookDetailPage = () => import('../views/BookDetailPage/BookDetailPage.vue')
+const ReadPage = () => import('../views/ReadPage/ReadPage.vue')
 
 Vue.use(VueRouter)
 
@@ -43,6 +44,10 @@ const routes = [
   {
     path: '/detail',
     component: BookDetailPage
+  },
+  {
+    path: '/read',
+    component: ReadPage
   }
 ]
 

@@ -153,7 +153,7 @@ export default {
     logout() {
       logoutRequest().then(res => {
         this.userInfo = null
-        if (this.$route.path === '/profile') {
+        if (this.$route.path === '/profile' || this.$route.path === '/read') {
           this.$router.replace('/home')
         } else {
           window.location.reload()

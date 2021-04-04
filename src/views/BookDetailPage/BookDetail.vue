@@ -38,7 +38,7 @@
             <i class="fa fa-clock-o" aria-hidden="true"></i> {{book.updateTime}}
           </span>
           <span class="book-word-count">字数：{{book.wordCount}}</span>
-          <el-button type="primary">
+          <el-button type="primary" @click="readOnline">
             <i class="fa fa-book" aria-hidden="true"></i> 在线阅读
           </el-button>
           <el-button v-if="!isFavorite" type="success" @click="addFavorite">
@@ -56,6 +56,9 @@
 </template>
 
 <script>
+import { CODE_SUCCESS } from '../../common/constants'
+import { getCurrentUser } from '../../network/common'
+
 export default {
   name: 'BookDetail',
   props: {
@@ -101,6 +104,21 @@ export default {
     },
     dislike() {
       this.$emit('dislike')
+    },
+    readOnline() {
+      getCurrentUser().then(res => {
+        if (res.code !== CODE_SUCCESS) {
+          this.$message.error('当前未登录')
+        } else {
+          this.$router.push({
+            path: '/read',
+            query: {
+              bookId: this.book.id,
+              chapter: 1
+            }
+          })
+        }
+      })
     }
   }
 }
